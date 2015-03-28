@@ -1,0 +1,74 @@
+div#terminal-container {
+	font-family: "Menlo", "Andale Mono", "Consolas", "DejaVu Sans Mono", monospace;
+	font-size: 14px;
+}
+.terminal-block {
+	margin: 0;
+}
+table.layout-table, table.layout-table tr, table.layout-table td {
+	border: none;
+	border-spacing: 0;
+	margin: 0;
+	padding: 0;
+}
+table.layout-table td.input {
+	width: 100%;
+	padding: 0;
+}
+td.prompt-td {
+	vertical-align: top;
+}
+.terminal-prompt input {
+	border: none;
+	margin: 0;
+	padding: 0;
+	outline: none;
+	font-family: inherit;
+	font-size: inherit;
+	width: 100%;
+}
+.terminal-prompt input[disabled] {
+	background-color: inherit;
+	color: inherit;
+	font: inherit;
+}
+.nobreak {
+	white-space: nowrap;
+}
+.prompt {
+	margin-right: 0.5em;
+}
+table.sql-result {
+	margin: 0.5em;
+	border: 1px solid gray;
+	border-collapse: collapse;
+}
+table.sql-result th, td {
+	text-align: left;
+	margin: 0; padding: 1px;
+	padding-left: 0.5em; padding-right: 0.5em;
+	border: 1px solid gray;
+}
+span.error {
+	color: red;
+}
+ul {
+	margin: 0.5em;
+	padding-left: 1em;
+}
+pre.dbexport {
+	border: 1px solid gray;
+	background-color: #ddd;
+	margin-top: 0.5em; margin-bottom: 0.5em;
+	overflow: auto;
+	word-wrap: break-word;
+	font-size: 12px;
+	height: 14em;
+}
+h3 {
+	margin: 0.5em; margin-top: 0; margin-bottom: 0;
+}
+div.import {
+	font-family: sans-serif;
+	margin: 0.5em;
+}
