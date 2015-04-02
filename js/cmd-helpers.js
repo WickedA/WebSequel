@@ -137,7 +137,7 @@ function CXViewAll() {
 
 function CXViewColumns(tablename) {
 	if(!tablename) throw("CXViewColumns: no arguments given");
-	CExecute("PRAGMA table_info(" + tablename ")");
+	CExecute("PRAGMA table_info(" + tablename + ")");
 }
 
 function CXClear() {
