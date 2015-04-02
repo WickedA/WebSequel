@@ -30,6 +30,7 @@ var CMDDB = {
 	".in": [CXInsertVal, "Inserts or replaces a row. Syntax: .in [table-name] [column1-value], ..."],
 	".vt": [CXViewTable, "Shows you the contents of one table. Not recommended for very large tables. Syntax: .vt [table-name]"],
 	".va": [CXViewAll, "Shows you the contents of all tables. Not recommended for very large tables."],
+	".vc": [CXViewColumns, "Lists the columns of one table. Syntax. .vc [table-name]"],
 	".cls": [CXClear, "Clears screen."]
 }
 
@@ -74,6 +75,7 @@ function CXAddColumn(tablename, columnname) {
 	var typestr = _.reduce(args.slice(2), function(a, b) { return a + " " + b; });
 	CExecute("ALTER TABLE " + tablename + " ADD COLUMN " + columnname + " " + typestr);
 }
+
 function CXInsertVal(tablename) {
 	if(arguments.length < 2) throw("CXInsertVal: not enough arguments");
 	var args = Array.prototype.slice.call(arguments);
@@ -131,6 +133,11 @@ function CXViewAll() {
 		CExecute("SELECT * FROM " + tn, false);
 	});
 	TShowPrompt();
+}
+
+function CXViewColumns(tablename) {
+	if(!tablename) throw("CXViewColumns: no arguments given");
+	CExecute("PRAGMA table_info(" + tablename ")");
 }
 
 function CXClear() {
