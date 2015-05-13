@@ -17,21 +17,21 @@ function CExecuteHelperCmd(cmdline) {
 }
 
 var CMDDB = {
-	".help": [CXHelp, "Shows a list of helper commands and their documentation strings."],
-	".about": [CXVersionInfo, "Shows version, author info and credits."],
-	".save": [CXSave, "Forces a LocalStorage save."],
-	".purge": [CXPurgeStorage, "Erases the current database from LocalStorage."],
-	".import": [CXImportBlob, "Lets you import an SQLite database file."],
-	".export": [CXExportBlob, "Exports the database as an SQLite database file you can save."],
-	".exportjs": [CXExport, "Gives you a JavaScript snippet you can use to reload the database."],
-	".tables": [CXTables, "Returns the list of tables in the database."],
-	".ct": [CXCreateTable, "Creates a new table. If no columns are specified, adds an id column. Syntax: .ct [table-name] [column1] [type1], ..."],
-	".ac": [CXAddColumn, "Adds a column to a table. Syntax: .ac [table-name] [column] [type]"],
-	".in": [CXInsertVal, "Inserts or replaces a row. Syntax: .in [table-name] [column1-value], ..."],
-	".vt": [CXViewTable, "Shows you the contents of one table. Not recommended for very large tables. Syntax: .vt [table-name]"],
-	".va": [CXViewAll, "Shows you the contents of all tables. Not recommended for very large tables."],
-	".vc": [CXViewColumns, "Lists the columns of one table. Syntax. .vc [table-name]"],
-	".cls": [CXClear, "Clears screen."]
+	".help": [CXHelp, TR.cmdhelp.help],
+	".about": [CXVersionInfo, TR.cmdhelp.about],
+	".save": [CXSave, TR.cmdhelp.save],
+	".purge": [CXPurgeStorage, TR.cmdhelp.purge],
+	".import": [CXImportBlob, TR.cmdhelp["import"]],
+	".export": [CXExportBlob, TR.cmdhelp["export"]],
+	".exportjs": [CXExport, TR.cmdhelp.exportjs],
+	".tables": [CXTables, TR.cmdhelp.tables],
+	".ct": [CXCreateTable, TR.cmdhelp.ct],
+	".ac": [CXAddColumn, TR.cmdhelp.ac],
+	".in": [CXInsertVal, TR.cmdhelp["in"]],
+	".vt": [CXViewTable, TR.cmdhelp.vt],
+	".va": [CXViewAll, TR.cmdhelp.va],
+	".vc": [CXViewColumns, TR.cmdhelp.vc],
+	".cls": [CXClear, TR.cmdhelp.cls]
 }
 
 function CXHelp() {
@@ -43,18 +43,12 @@ function CXHelp() {
 }
 
 function CXVersionInfo() {
-	TWrite(TJoin("This is <i>WebSequel</i> 1.5.",
-		"(C) 2015 Andy C. MIT-licensed.",
-		"Uses the following third-party libraries:") +
-	"<ul><li><a href='https://github.com/kripken/sql.js'>sql.js</a>, a JavaScript/Emscripten port of SQLite 3.8.7.4</li>" +
-	"<li><a href='http://underscorejs.org/'>underscore.js</a>, a library of functional programming helpers by DocumentCloud</li>" +
-	"<li><a href='https://github.com/KoryNunn/crel'>crel</a>, a DOM creation utility</li></ul>" +
-	"Built for a school project.");
+	TWrite(TR.VersionInfo);
 }
 
 function CXPurgeStorage() {
 	localStorage.removeItem("websequel-db");
-	TWrite("Storage purged. Running " + CWrapInLink(".save", ".save") + " will undo this.");
+	TWrite(TR.msg.storagePurged);
 }
 
 function CXTables() {
@@ -62,7 +56,7 @@ function CXTables() {
 }
 
 function CXCreateTable(tablename, columns) {
-	if(!tablename) throw("CXCreateTable: no arguments given");
+	if(!tablename) throw(TR.err.noarg);
 	var args = Array.prototype.slice.call(arguments);
 	var colstr = _.reduce(args.slice(1), function(a, b) { return a + " " + b; });
 	if(!columns) colstr = "id INTEGER PRIMARY KEY";
@@ -70,14 +64,14 @@ function CXCreateTable(tablename, columns) {
 }
 
 function CXAddColumn(tablename, columnname) {
-	if(arguments.length < 3) throw("CXAddColumn: not enough arguments");
+	if(arguments.length < 3) throw(TR.err.noargs);
 	var args = Array.prototype.slice.call(arguments);
 	var typestr = _.reduce(args.slice(2), function(a, b) { return a + " " + b; });
 	CExecute("ALTER TABLE " + tablename + " ADD COLUMN " + columnname + " " + typestr);
 }
 
 function CXInsertVal(tablename) {
-	if(arguments.length < 2) throw("CXInsertVal: not enough arguments");
+	if(arguments.length < 2) throw(TR.err.noargs);
 	var args = Array.prototype.slice.call(arguments);
 	var valstr = _.reduce(args.slice(1), function(a, b) { return a + " " + b; });
 	CExecute("INSERT OR REPLACE INTO " + tablename + " VALUES (" + valstr + ")");
@@ -86,7 +80,7 @@ function CXInsertVal(tablename) {
 function CXExport() {
 	var encoded = encodeURIComponent(DBStorageEncode(DB.export()));
 	var jscode = 'OldDB=DB;DB=new SQL.Database(DBStorageDecode(decodeURIComponent("' + encoded + '")));DBSave()';
-	TWrite("Click anywhere to select. You can paste this code into your browser's JavaScript console to load the database at any time.");
+	TWrite(TR.msg.cxExport);
 	THInsertBlock(crel("pre", {"class": "dbexport", "onclick":
 		"var sel = window.getSelection(); sel.removeAllRanges(); var range = document.createRange(); range.selectNodeContents(this); sel.addRange(range);"
 	}, jscode));
@@ -95,9 +89,9 @@ function CXExport() {
 function CXExportBlob() {
 	var url = window.URL.createObjectURL(new Blob([DB.export().buffer]));
 	THInsertBlock(crel("div",
-		crel("span", "Right click and use the 'Save Link As' option: "),
+		crel("span", TR.msg.useSaveLinkAs),
 		crel("a", {"href": url}, url)));
-	TWrite("If that doesn't work, try the " + CWrapInLink(".exportjs", ".exportjs") + " command.");
+	TWrite(TR.msg.useExportjs);
 }
 
 function CXImportBlob() {
@@ -113,16 +107,16 @@ function CXImportBlob() {
 		}
 		reader.readAsArrayBuffer(f);
 	}
-	THInsertBlock(crel("div", {"class": "import"}, crel("div", "Load an SQLite database file: "), button));
+	THInsertBlock(crel("div", {"class": "import"}, crel("div", TR.msg.loadDBFile), button));
 }
 
 function CXSave() {
 	DBSave();
-	TWrite("Database saved.");
+	TWrite(TR.msg.dbSaved);
 }
 
 function CXViewTable(tablename) {
-	if(!tablename) throw("CXViewTable: no arguments given");
+	if(!tablename) throw(TR.err.noarg);
 	CExecute("SELECT * FROM " + tablename);
 }
 
@@ -136,7 +130,7 @@ function CXViewAll() {
 }
 
 function CXViewColumns(tablename) {
-	if(!tablename) throw("CXViewColumns: no arguments given");
+	if(!tablename) throw(TR.err.noarg);
 	CExecute("PRAGMA table_info(" + tablename + ")");
 }
 
