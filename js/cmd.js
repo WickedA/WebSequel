@@ -3,7 +3,7 @@
 
 // Declared in other files:
 var DB, TWrite, TShowPrompt, TCurrentInput, TAddBlock, TLastInput, DBSave,
-    CExecuteHelperCmd;
+    TDisableInput, CExecuteHelperCmd;
 
 // Execute a command. cmdline is the command line to be executed, and prompt
 // decides whether to run TShowPrompt after execution or not.
