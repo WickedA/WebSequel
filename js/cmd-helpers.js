@@ -28,7 +28,8 @@ var CMDDB = {
     ".vt":       [CXViewTable,    TR.cmdhelp["vt"]],
     ".va":       [CXViewAll,      TR.cmdhelp["va"]],
     ".vc":       [CXViewColumns,  TR.cmdhelp["vc"]],
-    ".cls":      [CXClear,        TR.cmdhelp["cls"]]
+    ".cls":      [CXClear,        TR.cmdhelp["cls"]],
+    ".example":  [CXLoadExample,  TR.cmdhelp["example"]],
 }
 
 // Execute a helper command. The passed cmdline is assumed to be unmodified,
@@ -190,4 +191,11 @@ function CXViewColumns(tablename) {
 function CXClear() {
     TContainer.innerHTML = "";
     TShowPrompt();
+}
+
+// .example: loads the Chinook example database from js/exampledb.js
+function CXLoadExample() {
+    var scriptTag = document.createElement("script");
+    scriptTag.src = "js/exampledb.js";
+    document.body.appendChild(scriptTag);
 }

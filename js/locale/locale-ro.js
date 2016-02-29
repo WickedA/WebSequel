@@ -1,7 +1,7 @@
 var TJoin, CWrapInLink; // extern
 
 TR = {
-	ver: "1.6",
+	ver: "1.7",
 	cmdhelp: {
 		help:     "Afișează o listă de comenzi ajutătoare și documentația lor.",
 		about:    "Afișează versiunea, detaliile despre autor și librăriile utilizate.",
@@ -18,9 +18,10 @@ TR = {
 		va:       "Afișează conținutul tuturor tabelelor. Nu se recomandă pentru baze de date mari.",
 		vc:       "Afișează coloanele unei tabele. Sintaxă: .vc [table-name]",
 		cls:      "Șterge ecranul.",
+		example:  "Încarcă baza de date demonstrativă Chinook."
 	},
 	msg: {
-		storagePurged: "LocalStorage golit. Folosiți " + CWrapInLink(".save", ".save") + " pentru a anula.",
+		storagePurged: "LocalStorage golit. Folosiți " + CWrapInLink(".save", ".save") + " pentru a anula. Reîncărcați pagina pentru a șterge baza de date din memorie.",
 		cxExport: "Click oriunde pentru selectare. Puteți copia acest cod în consola browserului pentru a încărca baza de date oricând.",
 		useSaveLinkAs: "Folosiți opțiunea 'Save Link As' din meniul de click dreapta: ",
 		useExportjs: "Dacă nu funcționează, folosiți comanda " + CWrapInLink(".exportjs", ".exportjs") + ".",
@@ -35,7 +36,8 @@ TR = {
 }
 
 TR.MOTD = TJoin("Bun venit la <i>WebSequel</i> " + TR.ver + "! Acesta este un mediu pentru experimentarea cu SQL, folosind baza de date SQLite.",
-	"Vine cu câteva comenzi ajutătoare - încercați " + CWrapInLink(".help", ".help") + " pentru început.");
+	"Vine cu câteva comenzi ajutătoare - încercați " + CWrapInLink(".help", ".help") + " pentru început.",
+	"Puteți importa o bază de date demonstrativă folosind comanda " + CWrapInLink(".example", ".example") + ".");
 
 TR.VersionInfo = TJoin("Acesta este <i>WebSequel</i> " + TR.ver + ".",
 	"(C) 2015 Andy C. Licențiat sub MIT.",

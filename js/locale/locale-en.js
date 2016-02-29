@@ -1,7 +1,7 @@
 var TJoin, CWrapInLink; // extern
 
 TR = {
-	ver: "1.6",
+	ver: "1.7",
 	cmdhelp: {
 		"help":     "Shows a list of helper commands and their documentation strings.",
 		"about":    "Shows version, author info and credits.",
@@ -18,9 +18,10 @@ TR = {
 		"va":       "Shows you the contents of all tables. Not recommended for very large tables.",
 		"vc":       "Lists the columns of one table. Syntax: .vc [table-name]",
 		"cls":      "Clears screen.",
+		"example":  "Loads the Chinook example database."
 	},
 	msg: {
-		storagePurged: "Storage purged. Running " + CWrapInLink(".save", ".save") + " will undo this.",
+		storagePurged: "Storage purged. Running " + CWrapInLink(".save", ".save") + " will undo this. Reload the page to delete the database from memory.",
 		cxExport: "Click anywhere to select. You can paste this code into your browser's JavaScript console to load the database at any time.",
 		useSaveLinkAs: "Right click and use the 'Save Link As' option: ",
 		useExportjs: "If that doesn't work, try the " + CWrapInLink(".exportjs", ".exportjs") + " command.",
@@ -35,7 +36,8 @@ TR = {
 }
 
 TR.MOTD = TJoin("Welcome to <i>WebSequel</i> " + TR.ver + "! This is an SQL playground based on SQLite.",
-	"It comes with several helper commands - try " + CWrapInLink(".help", ".help") + " for starters.");
+	"It comes with several helper commands - try " + CWrapInLink(".help", ".help") + " for starters.",
+	"You can load an example database to play with using " + CWrapInLink(".example", ".example") + ".");
 
 TR.VersionInfo = TJoin("This is <i>WebSequel</i> " + TR.ver + ".",
 	"(C) 2015 Andy C. MIT-licensed.",
